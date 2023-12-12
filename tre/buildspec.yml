@@ -11,13 +11,13 @@ phases:
     commands:
     - echo "Building your application..."
     - docker build -t ${DOCKER_REPO} .
-    - docker tag ${DOCKER_REPO} ${DOCKER_USER}/${DOCKER_REPO}:{DOCKER_VERSION}
+    - docker tag ${DOCKER_REPO} ${DOCKER_USER}/${DOCKER_REPO}:${DOCKER_VERSION}
 
   post_build:
     commands:
     - echo "Pushing the Docker image to DockerHub..."
-    - docker push ${DOCKER_USER}/${DOCKER_REPO}:{DOCKER_VERSION}
-    - printf '[{"name":"fgms-${DOCKER_REPO}","imageUri":"%s"}]' ${DOCKER_USER}/${DOCKER_REPO}:{DOCKER_VERSION} > imagedefinitions.json
+    - docker push ${DOCKER_USER}/${DOCKER_REPO}:${DOCKER_VERSION}
+    - printf '[{"name":"fgms-${DOCKER_REPO}","imageUri":"%s"}]' ${DOCKER_USER}/${DOCKER_REPO}:${DOCKER_VERSION} > imagedefinitions.json
 
 artifacts:
   files: imagedefinitions.json
