@@ -19,7 +19,8 @@ phases:
     commands:
     - echo "Pushing the Docker image to DockerHub..."
     - docker push ${DOCKER_USER}/${DOCKER_REPO}:${DOCKER_VERSION}
+    - cd ../
     - printf '[{"name":"fgms-${DOCKER_REPO}","imageUri":"%s"}]' ${DOCKER_USER}/${DOCKER_REPO}:${DOCKER_VERSION} > imagedefinitions.json
 
 artifacts:
-  files: ${DOCKER_REPO}/imagedefinitions.json
+  files: imagedefinitions.json
