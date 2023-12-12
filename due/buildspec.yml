@@ -22,4 +22,4 @@ phases:
     - printf '[{"name":"fgms-${DOCKER_REPO}","imageUri":"%s"}]' ${DOCKER_USER}/${DOCKER_REPO}:${DOCKER_VERSION} > imagedefinitions.json
 
 artifacts:
-  files: imagedefinitions.json
+  files: ${DOCKER_REPO}/imagedefinitions.json
