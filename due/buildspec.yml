@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+    - echo "Logging in to DockerHub..."
+    - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USER}" --password-stdin
+    - cd ${DOCKER_REPO}
+    - npm install
+    - npm run test
+
+  build:
+    commands:
+    - echo "Building your application..."
+    - docker build -t ${DOCKER_REPO} .
+    - docker tag ${DOCKER_REPO} ${DOCKER_USER}/${DOCKER_REPO}:{DOCKER_VERSION}
+
+  post_build:
+    commands:
+    - echo "Pushing the Docker image to DockerHub..."
+    - docker push ${DOCKER_USER}/${DOCKER_REPO}:{DOCKER_VERSION}
+    - printf '[{"name":"fgms-${DOCKER_REPO}","imageUri":"%s"}]' ${DOCKER_USER}/${DOCKER_REPO}:{DOCKER_VERSION} > imagedefinitions.json
+
+artifacts:
+  files: imagedefinitions.json
